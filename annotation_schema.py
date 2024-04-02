@@ -1,5 +1,4 @@
 import datajoint as dj
-import cv2
 import matplotlib.pyplot as plt
 
 schema = dj.schema('nbd')
@@ -30,6 +29,7 @@ class CroppedImage(dj.Computed):
     height: int
     """
     def make(self,key):
+        import cv2
 
         img = cv2.imread('faces_unannotated/'+key['fname'])
         # Convert the image to grayscale - Haar Cascades require grayscale images
