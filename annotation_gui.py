@@ -57,9 +57,31 @@ import os
 
 
 import streamlit as st
-
+import numpy as np
+from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
+import os
 
-value = streamlit_image_coordinates('dwaynejohnson.jpg',width=250)
+def get_random_image():
+    key = np.random.choice(CroppedImage.fetch('KEY'))
+    _, array = (CroppedImage & key).fetch1('fname', 'image')
+    random_filename = f'{key["fname"].split(".")[0]}{np.random.randint(0,10000)}.png'
+
+    pImage.fromarray(array).save(random_filename)
+    return random_filename
+
+
+if 'eye' not in st.session_state:
+    st.session_state['eye'] = []
+
+print(st.session_state['eye'])
+if len(st.session_state['eye']) == 0:
+    fname = get_random_image()
+
+value = streamlit_image_coordinates(fname,width=100)
+if value is not None:
+    st.session_state['eye'].append(value)
+    print(st.session_state['eye'])
 
 st.write(value)
+os.remove(fname)
