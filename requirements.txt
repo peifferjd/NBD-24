@@ -1,4 +1,5 @@
 pandas
 matplotlib
+datajoint
 streamlit
 streamlit_image_annotation
