@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-from annotation_schema import CroppedImage
+# from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
 from PIL import Image, ImageDraw
 
@@ -14,10 +14,6 @@ def get_ellipse_coords(point: tuple[int, int]) -> tuple[int, int, int, int]:
         center[0] + radius,
         center[1] + radius,
     )
-
- ### WORKS GOOD FOR TWO POINTS
-from PIL import Image, ImageDraw
-import streamlit as st
 
 st.write(st.secrets['datajoint'])
 
