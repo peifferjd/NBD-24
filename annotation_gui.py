@@ -7,11 +7,12 @@ import numpy as np
 import os
 
 
-key = np.random.choice(Image.fetch('KEY'))
-_, array = (Image & key).fetch1('fname', 'image')
-# save array as tmpfile
-fname = tempfile.mktemp(suffix='.png')
-pImage.fromarray(array).save(fname)
+# key = np.random.choice(Image.fetch('KEY'))
+# _, array = (Image & key).fetch1('fname', 'image')
+# # save array as tmpfile
+# fname = tempfile.mktemp(suffix='.png')
+# pImage.fromarray(array).save(fname)
+fname='dwaynejohnson.jpg'
 
 label_list = ['eye','na']
 result_dict = {'points':[[0,0]],'labels':[1]}
