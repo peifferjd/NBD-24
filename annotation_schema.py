@@ -5,7 +5,58 @@ schema = dj.schema('nbd')
 
 
 @schema
-class Image(dj.Manual):
+class DatasetImage(dj.Manual):
+    definition = """
+    fname: varchar(255)
+    ---
+    image: longblob
+    y: longblob
+    """
+    def show(self):
+        fig = plt.figure()
+        axs = fig.add_subplot(111)
+        axs.imshow(self.fetch1('image'))
+        y = self.fetch1('y').reshape(-1, 2)
+        axs.scatter(y[:, 0], y[:, 1], c='r')
+        return fig
+    
+    
+
+
+@schema
+class CroppedDatasetImage(dj.Computed):
+    definition = """
+    -> DatasetImage
+    ---
+    image_cropped: longblob
+    y_cropped: longblob
+    crop_x1: int
+    crop_y1: int
+    crop_x2: int
+    crop_y2: int
+    """
+    def make(self,key):
+        from processing import auto_crop_and_resize_face, transform_points
+
+        image, y = (DatasetImage & key).fetch1('image', 'y')
+        resized, face_coords = auto_crop_and_resize_face(image)
+        new_y = transform_points(face_coords, y)
+
+        key['image_cropped'] = resized 
+        key['y_cropped'] = new_y
+        key['crop_x1'], key['crop_y1'], key['crop_x2'], key['crop_y2'] = face_coords
+        self.insert1(key)
+    
+    def show(self):
+        fig = plt.figure()
+        axs = fig.add_subplot(111)
+        axs.imshow(self.fetch1('image_cropped'))
+        y = self.fetch1('y_cropped').reshape(-1, 2)
+        axs.scatter(y[:, 0], y[:, 1], c='r')
+        return fig
+
+@schema
+class UnannotatedImage(dj.Manual):
     definition = """
     fname: varchar(255)
     ---
@@ -15,57 +66,31 @@ class Image(dj.Manual):
         fig = plt.figure()
         axs = fig.add_subplot(111)
         axs.imshow(self.fetch1('image'))
-        return axs
-
+        return fig
+    
 @schema
 class CroppedImage(dj.Computed):
     definition = """
-    -> Image
+    -> UnannotatedImage
     ---
-    image: longblob
-    x: int
-    y: int
-    width: int
-    height: int
+    image_cropped: longblob
+    crop_x1: int
+    crop_y1: int
+    crop_x2: int
+    crop_y2: int
     """
     def make(self,key):
-        import cv2
+        from processing import auto_crop_and_resize_face
 
-        img = cv2.imread('faces_unannotated/'+key['fname'])
-        # Convert the image to grayscale - Haar Cascades require grayscale images
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        image = (UnannotatedImage & key).fetch1('image')
+        resized, face_coords = auto_crop_and_resize_face(image)
 
-        # Detect faces in the image
-        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-        print(faces)
-        assert faces is not None, 'No face detected.'
-        assert faces.shape[0] == 1, 'More than one face detected.'
-
-        x, y, w, h = faces[0]
-
-        face_img = gray[y:y+h, x:x+w]
-        resized_face = cv2.resize(face_img, (64, 64))
-
-        key['image'] = resized_face
-        key['x'] = x
-        key['y'] = y
-        key['width'] = w
-        key['height'] = h
-
+        key['image_cropped'] = resized 
+        key['crop_x1'], key['crop_y1'], key['crop_x2'], key['crop_y2'] = face_coords
         self.insert1(key)
-    
+
     def show(self):
         fig = plt.figure()
         axs = fig.add_subplot(111)
-        axs.imshow(self.fetch1('image'))
-        return axs
-
-@schema
-class Label(dj.Manual):
-    definition = """
-    -> Image
-    annotation_timestamp: datetime
-    ---
-    label:  longblob
-    """
+        axs.imshow(self.fetch1('image_cropped'))
+        return fig

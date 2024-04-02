@@ -8,6 +8,7 @@ faces_unannotated/
 # C extensions
 *.so
 
+faces_annotated/
 # Distribution / packaging
 .Python
 build/
