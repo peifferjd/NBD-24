@@ -32,25 +32,35 @@ import os
 #     st.rerun()
 
 
-import streamlit as st
-from glob import glob
-from streamlit_image_annotation import pointdet
+# import streamlit as st
+# from glob import glob
+# from streamlit_image_annotation import pointdet
 
-label_list = ['eye','na']
-image_path_list = glob('*.jpg')
-if 'result_dict' not in st.session_state:
-    result_dict = {}
-    for img in image_path_list:
-        result_dict[img] = {'points': [[0,0]],'labels':[1]}
-    st.session_state['result_dict'] = result_dict.copy()
+# label_list = ['eye','na']
+# image_path_list = glob('*.jpg')
+# if 'result_dict' not in st.session_state:
+#     result_dict = {}
+#     for img in image_path_list:
+#         result_dict[img] = {'points': [[0,0]],'labels':[1]}
+#     st.session_state['result_dict'] = result_dict.copy()
 
-target_image_path = image_path_list[0]
+# target_image_path = image_path_list[0]
 
-new_labels = pointdet(image_path=target_image_path, 
-                        label_list=label_list, 
-                        points=st.session_state['result_dict'][target_image_path]['points'],
-                        labels=st.session_state['result_dict'][target_image_path]['labels'], key=target_image_path)
-if new_labels is not None:
-    st.session_state['result_dict'][target_image_path]['points'] = [v['point'] for v in new_labels]
-    st.session_state['result_dict'][target_image_path]['labels'] = [v['label_id'] for v in new_labels]
+# new_labels = pointdet(image_path=target_image_path, 
+#                         label_list=label_list, 
+#                         points=st.session_state['result_dict'][target_image_path]['points'],
+#                         labels=st.session_state['result_dict'][target_image_path]['labels'], key=target_image_path)
+# if new_labels is not None:
+#     st.session_state['result_dict'][target_image_path]['points'] = [v['point'] for v in new_labels]
+#     st.session_state['result_dict'][target_image_path]['labels'] = [v['label_id'] for v in new_labels]
 #st.json(st.session_state['result_dict'])
+
+
+import streamlit as st
+
+from streamlit_image_coordinates import streamlit_image_coordinates
+
+c1,c2,c3 = st.columns(3)
+value = streamlit_image_coordinates('dwaynejohnson.jpg')
+
+st.write(value)
