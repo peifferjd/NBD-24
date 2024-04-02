@@ -56,30 +56,56 @@ import os
 
 import streamlit as st
 import numpy as np
-from annotation_schema import CroppedImage
+# from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
 import os
 
-def get_random_image():
-    key = np.random.choice(CroppedImage.fetch('KEY'))
-    _, array = (CroppedImage & key).fetch1('fname', 'image')
-    random_filename = f'{key["fname"].split(".")[0]}{np.random.randint(0,10000)}.png'
+# def get_random_image():
+#     key = np.random.choice(CroppedImage.fetch('KEY'))
+#     _, array = (CroppedImage & key).fetch1('fname', 'image')
+#     random_filename = f'{key["fname"].split(".")[0]}{np.random.randint(0,10000)}.png'
 
-    pImage.fromarray(array).save(random_filename)
-    return random_filename
+# #     pImage.fromarray(array).save(random_filename)
+# #     return random_filename
 
 
-if 'eye' not in st.session_state:
-    st.session_state['eye'] = []
+# # fname = get_random_image()
+# array = np.load("kitty.npy")
+# st.write(array.shape)
 
-print(st.session_state['eye'])
-if len(st.session_state['eye']) == 0:
-    fname = get_random_image()
+# value = streamlit_image_coordinates(array,key='numpy')
 
-value = streamlit_image_coordinates(fname,width=100)
-if value is not None:
-    st.session_state['eye'].append(value)
-    print(st.session_state['eye'])
+# st.write(value)
 
-st.write(value)
-os.remove(fname)
+
+if 'points' not in st.session_state:
+    st.session_state['points'] = []
+    
+from PIL import Image, ImageDraw
+def get_ellipse_coords(point: tuple[int, int]) -> tuple[int, int, int, int]:
+    center = point
+    radius = 10
+    return (
+        center[0] - radius,
+        center[1] - radius,
+        center[0] + radius,
+        center[1] + radius,
+    )
+
+array = np.load("kitty.npy")
+with Image.fromarray(array) as img:
+    draw = ImageDraw.Draw(img)
+
+    # Draw an ellipse at each coordinate in points
+    for point in st.session_state["points"]:
+        coords = get_ellipse_coords(point)
+        draw.ellipse(coords, fill="red")
+
+    value = streamlit_image_coordinates(img, key="pil")
+
+    if value is not None:
+        point = value["x"], value["y"]
+
+        if point not in st.session_state["points"]:
+            st.session_state["points"].append(point)
+            st.experimental_rerun()
