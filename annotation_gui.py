@@ -1,6 +1,4 @@
 import streamlit as st
-from streamlit_image_annotation import pointdet
-# from annotation_schema import Image, Label
 from PIL import Image as pImage
 import tempfile
 import numpy as np
