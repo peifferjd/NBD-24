@@ -16,6 +16,8 @@ def get_ellipse_coords(point: tuple[int, int]) -> tuple[int, int, int, int]:
     )
 
 st.write(st.secrets['datajoint'])
+import os
+st.write(os.environ['DB_USER'])
 
 ## CLOSE BUT KEEPS LAST POINT
 # # List of filenames to choose from
