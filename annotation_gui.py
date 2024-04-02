@@ -53,4 +53,4 @@ new_labels = pointdet(image_path=target_image_path,
 if new_labels is not None:
     st.session_state['result_dict'][target_image_path]['points'] = [v['point'] for v in new_labels]
     st.session_state['result_dict'][target_image_path]['labels'] = [v['label_id'] for v in new_labels]
-st.json(st.session_state['result_dict'])
+#st.json(st.session_state['result_dict'])
