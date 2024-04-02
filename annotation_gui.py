@@ -60,7 +60,6 @@ import streamlit as st
 
 from streamlit_image_coordinates import streamlit_image_coordinates
 
-c1,c2,c3 = st.columns(3)
-value = streamlit_image_coordinates('dwaynejohnson.jpg')
+value = streamlit_image_coordinates('dwaynejohnson.jpg',width=250)
 
 st.write(value)

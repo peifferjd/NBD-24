@@ -2,5 +2,4 @@ pandas
 matplotlib
 datajoint
 streamlit
-streamlit_image_annotation
 streamlit_image_coordinates
