@@ -36,7 +36,7 @@ import streamlit as st
 from streamlit_image_annotation import classification
 
 label_list = ['deer', 'human', 'dog', 'penguin', 'framingo', 'teddy bear']
-image_path_list = glob('image/*.jpg')
+image_path_list = glob('*.jpg')
 if 'result_df' not in st.session_state:
     st.session_state['result_df'] = pd.DataFrame.from_dict({'image': image_path_list, 'label': [0]*len(image_path_list)}).copy()
 
