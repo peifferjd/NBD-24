@@ -9,8 +9,11 @@ from annotation_schema import CroppedImage, CroppedImageLabel
 from streamlit_image_coordinates import streamlit_image_coordinates
 from PIL import Image, ImageDraw
 
-st.markdown('Click on both eyes. Then click "Next"'.)
-st.markdown('If you mess up, keep clicking. Or refresh')
+st.set_page_config(
+    page_title="Eye Annotation Tool!",
+    page_icon="🧊")
+st.markdown('Click on both eyes. Then click "Next".')
+st.markdown('If you mess up, keep clicking. Or refresh page.')
 def get_ellipse_coords(point: tuple[int, int]) -> tuple[int, int, int, int]:
     center = point
     radius = 10
