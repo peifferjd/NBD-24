@@ -4,7 +4,7 @@ import datajoint as dj
 # dj.config['database.host'] = st.secrets['datajoint']['HOST']
 # dj.config['database.user'] = st.secrets['datajoint']['USER']
 # dj.config['database.password'] = st.secrets['datajoint']['PASS']
-print("Not doing config")
+st.write("Not doing config")
 
 from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
