@@ -3,7 +3,7 @@ import numpy as np
 import datajoint as dj
 dj.config['database.host'] = st.secrets['datajoint']['HOST']
 dj.config['database.user'] = st.secrets['datajoint']['USER']
-dj.config['database.password'] = st.secrets['datajoint']['PASSWORD']
+dj.config['database.password'] = st.secrets['datajoint']['PASS']
 
 from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
