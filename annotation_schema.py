@@ -52,7 +52,7 @@ class CroppedDatasetImage(dj.Computed):
         axs = fig.add_subplot(111)
         axs.imshow(self.fetch1('image_cropped'))
         y = self.fetch1('y_cropped').reshape(-1, 2)
-        axs.scatter(y[:, 0], y[:, 1], c='r')
+        axs.scatter(y[:, 0], y[:, 1], c=['r','y'])
         return fig
 
 @schema
@@ -94,3 +94,27 @@ class CroppedImage(dj.Computed):
         axs = fig.add_subplot(111)
         axs.imshow(self.fetch1('image_cropped'))
         return fig
+
+@schema
+class CroppedImageLabel(dj.Manual):
+    definition = """
+    -> CroppedImage
+    entry_time = CURRENT_TIMESTAMP : timestamp 
+    ---
+    y: longblob
+    """
+    def show(self):
+        fig = plt.figure()
+        axs = fig.add_subplot(111)
+        axs.imshow((CroppedImage & self).fetch1('image_cropped'))
+        y = self.fetch1('y').reshape(-1, 2)
+        axs.scatter(y[:, 0], y[:, 1], c=['r','y'])
+        # return fig
+    
+    def showall(self):
+        fig = plt.figure()
+        axs = fig.add_subplot(111)
+        axs.imshow((CroppedImage & self).fetch1('image_cropped'))
+        for y in self.fetch('y'):
+            y = y.reshape(-1, 2)
+            axs.scatter(y[:, 0], y[:, 1], c=['r','y'])

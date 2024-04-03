@@ -5,7 +5,7 @@ import datajoint as dj
 # dj.config['database.user'] = st.secrets['datajoint']['USER']
 # dj.config['database.password'] = st.secrets['datajoint']['PASS']
 
-from annotation_schema import CroppedImage
+from annotation_schema import CroppedImage, CroppedImageLabel
 from streamlit_image_coordinates import streamlit_image_coordinates
 from PIL import Image, ImageDraw
 
@@ -31,6 +31,10 @@ if "new_image_selected" not in st.session_state:
 
 # Submit button to choose a random filename and clear points
 if st.button('Choose Random Image'):
+    key = st.session_state["key"]
+    ordered = sorted(st.session_state['points'], key=lambda x: x[0], reverse=True)
+    key.update({'y':np.array(ordered).reshape(1,4)//4})
+    CroppedImageLabel.insert1(key)
     st.session_state["key"] = np.random.choice(keys)
     st.session_state["points"].clear()
     st.session_state["new_image_selected"] = True  # Set the flag to True
