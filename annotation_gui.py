@@ -1,9 +1,10 @@
 import streamlit as st
 import numpy as np
 import datajoint as dj
-dj.config['database.host'] = st.secrets['datajoint']['HOST']
-dj.config['database.user'] = st.secrets['datajoint']['USER']
-dj.config['database.password'] = st.secrets['datajoint']['PASS']
+# dj.config['database.host'] = st.secrets['datajoint']['HOST']
+# dj.config['database.user'] = st.secrets['datajoint']['USER']
+# dj.config['database.password'] = st.secrets['datajoint']['PASS']
+print("Not doing config")
 
 from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
