@@ -109,7 +109,7 @@ class CroppedImageLabel(dj.Manual):
         axs.imshow((CroppedImage & self).fetch1('image_cropped'))
         y = self.fetch1('y').reshape(-1, 2)
         axs.scatter(y[:, 0], y[:, 1], c=['r','y'])
-        # return fig
+        return fig
     
     def showall(self):
         fig = plt.figure()
@@ -118,3 +118,4 @@ class CroppedImageLabel(dj.Manual):
         for y in self.fetch('y'):
             y = y.reshape(-1, 2)
             axs.scatter(y[:, 0], y[:, 1], c=['r','y'])
+        return fig
