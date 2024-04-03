@@ -40,7 +40,6 @@ if st.button('Next'):
     key.update({'y':np.array(ordered).reshape(1,4)//4})
     CroppedImageLabel.insert1(key)
     st.session_state["key"] = np.random.choice(keys)
-    st.write(st.session_state["key"])
     st.session_state["points"].clear()
     st.session_state["new_image_selected"] = True  # Set the flag to True
 
