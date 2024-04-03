@@ -9,7 +9,8 @@ from annotation_schema import CroppedImage, CroppedImageLabel
 from streamlit_image_coordinates import streamlit_image_coordinates
 from PIL import Image, ImageDraw
 
-
+st.markdown('Click on both eyes. Then click "Next"'.)
+st.markdown('If you mess up, keep clicking. Or refresh')
 def get_ellipse_coords(point: tuple[int, int]) -> tuple[int, int, int, int]:
     center = point
     radius = 10
@@ -30,7 +31,7 @@ if "new_image_selected" not in st.session_state:
     st.session_state["new_image_selected"] = False  # Flag to indicate a new image was selected
 
 # Submit button to choose a random filename and clear points
-if st.button('Choose Random Image'):
+if st.button('Next'):
     key = st.session_state["key"]
     ordered = sorted(st.session_state['points'], key=lambda x: x[0], reverse=True)
     key.update({'y':np.array(ordered).reshape(1,4)//4})
