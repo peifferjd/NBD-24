@@ -25,7 +25,7 @@ st.write(st.secrets['datajoint'])
 import os
 st.write(os.environ['DB_USER'])
 
-st.write(len(CroppedImage))
+st.write(len(CroppedImage.fetch('KEY')))
 
 ## CLOSE BUT KEEPS LAST POINT
 # # List of filenames to choose from
