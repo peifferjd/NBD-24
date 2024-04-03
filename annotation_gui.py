@@ -4,7 +4,6 @@ import datajoint as dj
 # dj.config['database.host'] = st.secrets['datajoint']['HOST']
 # dj.config['database.user'] = st.secrets['datajoint']['USER']
 # dj.config['database.password'] = st.secrets['datajoint']['PASS']
-st.write("Not doing config")
 
 from annotation_schema import CroppedImage
 from streamlit_image_coordinates import streamlit_image_coordinates
@@ -21,9 +20,6 @@ def get_ellipse_coords(point: tuple[int, int]) -> tuple[int, int, int, int]:
         center[1] + radius,
     )
 
-
-## CLOSE BUT KEEPS LAST POINT
-# List of filenames to choose from
 keys = CroppedImage.fetch('KEY')
 
 if "points" not in st.session_state:
@@ -39,7 +35,7 @@ if st.button('Choose Random Image'):
     st.session_state["points"].clear()
     st.session_state["new_image_selected"] = True  # Set the flag to True
 
-with Image.fromarray((CroppedImage & st.session_state['key']).fetch1('image_cropped')) as img:
+with Image.fromarray((CroppedImage & st.session_state['key']).fetch1('image_cropped')).resize((256,256),Image.BICUBIC) as img:
     draw = ImageDraw.Draw(img)
 
     # Draw an ellipse at each coordinate in the last two points
@@ -48,6 +44,7 @@ with Image.fromarray((CroppedImage & st.session_state['key']).fetch1('image_crop
         draw.ellipse(coords, fill="red")
 
     value = streamlit_image_coordinates(img, key="pil")
+
 
     if value is not None and not st.session_state["new_image_selected"]:  # Check the flag before adding a new point
         point = (value["x"], value["y"])
