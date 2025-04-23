@@ -1,0 +1,18 @@
+[project]
+name = "nbd"
+version = "0.1.0"
+description = "demo for national biomechanics day"
+requires-python = ">=3.12"
+authors = [{name = "JD Peiffer", email = "jd.peiffer@gmail.com"}]
+dependencies = [
+    "matplotlib",
+    "datajoint",
+    "streamlit",
+    "streamlit_image_coordinates",
+    "opencv-python",
+    "ipykernel>=6.29.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-from annotation_schema import CroppedImageLabel,CroppedImage
+from nbd.annotation_schema import CroppedImageLabel,CroppedImage
 
 key = np.random.choice((CroppedImage & CroppedImageLabel).fetch('KEY'),2)
 

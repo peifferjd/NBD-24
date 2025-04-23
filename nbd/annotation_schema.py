@@ -36,7 +36,7 @@ class CroppedDatasetImage(dj.Computed):
     crop_y2: int
     """
     def make(self,key):
-        from processing import auto_crop_and_resize_face, transform_points
+        from .processing import auto_crop_and_resize_face, transform_points
 
         image, y = (DatasetImage & key).fetch1('image', 'y')
         resized, face_coords = auto_crop_and_resize_face(image)
@@ -80,7 +80,7 @@ class CroppedImage(dj.Computed):
     crop_y2: int
     """
     def make(self,key):
-        from processing import auto_crop_and_resize_face
+        from .processing import auto_crop_and_resize_face
 
         image = (UnannotatedImage & key).fetch1('image')
         resized, face_coords = auto_crop_and_resize_face(image)

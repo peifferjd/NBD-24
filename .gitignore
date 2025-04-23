@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 faces/
 faces_unannotated/
+datajoint_docker/data
 
 # C extensions
 *.so
