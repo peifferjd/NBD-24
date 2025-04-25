@@ -781,6 +781,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "datajoint" },
+    { name = "flask" },
     { name = "ipykernel" },
     { name = "matplotlib" },
     { name = "opencv-python" },
@@ -791,6 +792,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "datajoint" },
+    { name = "flask" },
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "matplotlib" },
     { name = "opencv-python" },

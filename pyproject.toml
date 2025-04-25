@@ -11,6 +11,7 @@ dependencies = [
     "streamlit_image_coordinates",
     "opencv-python",
     "ipykernel>=6.29.5",
+    "flask",
 ]
 
 [build-system]
